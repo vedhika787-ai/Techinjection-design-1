@@ -116,13 +116,16 @@ export const FEATURED_USE_CASE = {
   ],
   techTags: [
     "NLP",
-    "LLM",
+    "LLMs",
     "OCR",
-    "Entity extraction",
-    "Workflow automation",
+    "Document Intelligence",
+    "Entity Extraction",
+    "Business Rules",
+    "RAG",
+    "Workflow Automation",
   ],
   resultLine:
-    "A process that used to depend on manual email reading now runs automatically, end to end.",
+    "From incoming RFQ to customer-ready quotation, the workflow transforms unstructured emails and documents into a structured, validated, and automated quoting process.",
   ctaText: "Explore this use case →",
 };
 

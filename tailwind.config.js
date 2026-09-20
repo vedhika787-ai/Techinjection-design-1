@@ -21,7 +21,7 @@ export default {
         "text-secondary": "var(--text-secondary)",
         "accent": {
           DEFAULT: "var(--accent)",
-          hover: "#d9732d",
+          hover: "#1D4ED8",
           foreground: "#ffffff",
         },
         "accent-dark": "var(--accent-dark)",

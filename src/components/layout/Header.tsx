@@ -14,10 +14,6 @@ export const Header: React.FC<HeaderProps> = ({ activePage = "home", onNavigate 
   const [activeItem, setActiveItem] = useState(activePage === "services" ? "Services" : "Home");
 
   useEffect(() => {
-    setActiveItem(activePage === "services" ? "Services" : "Home");
-  }, [activePage]);
-
-  useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 40) {
         setIsScrolled(true);
@@ -36,8 +32,8 @@ export const Header: React.FC<HeaderProps> = ({ activePage = "home", onNavigate 
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "h-16 sm:h-20 bg-white border-b border-border shadow-sm"
-          : "h-16 sm:h-20 bg-white border-b border-border shadow-sm"
+          ? `h-16 sm:h-20 bg-white shadow-sm ${activePage === "services" ? "" : "border-b border-border"}`
+          : `h-16 sm:h-20 bg-white shadow-sm ${activePage === "services" ? "" : "border-b border-border"}`
       }`}
     >
       <div className="container mx-auto h-full px-4 sm:px-5 flex items-center">
@@ -162,7 +158,7 @@ export const Header: React.FC<HeaderProps> = ({ activePage = "home", onNavigate 
                 <a
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full text-center px-4 py-2.5 rounded text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-colors"
+                    className="block w-full text-center px-4 py-2.5 rounded text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-colors"
                 >
                   Contact Us
                 </a>

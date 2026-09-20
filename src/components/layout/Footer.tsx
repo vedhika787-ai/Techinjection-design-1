@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { FOOTER_DATA } from "@/data/heroContent";
 

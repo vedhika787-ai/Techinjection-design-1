@@ -87,7 +87,7 @@ export function App() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-bg-base text-text-primary antialiased selection:bg-accent selection:text-white">
+    <div className="home-page min-h-screen flex flex-col bg-bg-base text-text-primary antialiased selection:bg-accent selection:text-white">
       {/* Sticky Header */}
       <Header activePage="home" onNavigate={handleNavigate} />
 

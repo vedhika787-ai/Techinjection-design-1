@@ -2,110 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { SERVICES_LIST, type ServiceItem } from "@/data/servicesData";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import BlueMeshyBackground from "@/components/ui/blue-meshy-background";
 
 interface ServicesPageProps {
   onNavigateHome?: (hash?: string) => void;
 }
-
-type FlowPoint = { x: number; y: number; angle: number };
-
-const FLOW_SPACING = 28;
-const FLOW_RADIUS = 220;
-
-function shortAngleDist(start: number, end: number) {
-  const fullTurn = Math.PI * 2;
-  const delta = (end - start) % fullTurn;
-  return ((2 * delta) % fullTurn) - delta;
-}
-
-const FlowFieldBackground: React.FC = () => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    if (!canvas || !context) return;
-
-    let width = 0;
-    let height = 0;
-    let points: FlowPoint[] = [];
-    let animationFrame = 0;
-    const pointer = { x: -9999, y: -9999 };
-    const target = { x: -9999, y: -9999 };
-
-    const resize = () => {
-      width = canvas.clientWidth;
-      height = canvas.clientHeight;
-      const devicePixelRatio = window.devicePixelRatio || 1;
-      canvas.width = width * devicePixelRatio;
-      canvas.height = height * devicePixelRatio;
-      context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-
-      points = [];
-      for (let y = FLOW_SPACING / 2; y < height; y += FLOW_SPACING) {
-        for (let x = FLOW_SPACING / 2; x < width; x += FLOW_SPACING) {
-          const baseAngle =
-            Math.sin(x * 0.02 + y * 0.03) + Math.cos(x * 0.015 - y * 0.025);
-          points.push({ x, y, angle: baseAngle * Math.PI });
-        }
-      }
-    };
-
-    const handleMove = (event: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      target.x = event.clientX - rect.left;
-      target.y = event.clientY - rect.top;
-    };
-
-    const handleLeave = () => {
-      target.x = -9999;
-      target.y = -9999;
-    };
-
-    const draw = () => {
-      pointer.x += (target.x - pointer.x) * 0.08;
-      pointer.y += (target.y - pointer.y) * 0.08;
-      context.clearRect(0, 0, width, height);
-
-      for (const point of points) {
-        const dx = point.x - pointer.x;
-        const dy = point.y - pointer.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const influence = Math.max(0, 1 - distance / FLOW_RADIUS);
-        const swirl = Math.atan2(dy, dx) + Math.PI / 2;
-        const angle = point.angle + shortAngleDist(point.angle, swirl) * influence;
-        const length = 7 + influence * 8;
-        const lineWidth = 1 + influence * 1.2;
-        const opacity = 0.16 + influence * 0.84;
-
-        context.beginPath();
-        context.moveTo(point.x - Math.cos(angle) * length, point.y - Math.sin(angle) * length);
-        context.lineTo(point.x + Math.cos(angle) * length, point.y + Math.sin(angle) * length);
-        context.strokeStyle = `rgba(255,255,255,${opacity.toFixed(3)})`;
-        context.lineWidth = lineWidth;
-        context.lineCap = "round";
-        context.stroke();
-      }
-
-      animationFrame = requestAnimationFrame(draw);
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-    canvas.addEventListener("mousemove", handleMove);
-    canvas.addEventListener("mouseleave", handleLeave);
-    animationFrame = requestAnimationFrame(draw);
-
-    return () => {
-      cancelAnimationFrame(animationFrame);
-      window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", handleMove);
-      canvas.removeEventListener("mouseleave", handleLeave);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="services-flow-canvas" aria-hidden="true" />;
-};
 
 // ─── Slide-reveal hook (IntersectionObserver, plays once) ─────────────────────
 function useSlideReveal(direction: "left" | "right") {
@@ -190,14 +91,14 @@ const ServiceSection: React.FC<{ service: ServiceItem; index: number }> = ({
         );
       case "document":
         return (
-          <div className="service-image-frame relative group rounded-3xl p-3.5 bg-gradient-to-br from-amber-400/20 via-orange-500/15 to-rose-400/20 border-2 border-orange-500/40 shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_15px_45px_-8px_rgba(232,130,60,0.3)]">
+          <div className="service-image-frame relative group rounded-3xl p-3.5 bg-gradient-to-br from-blue-400/20 via-indigo-500/15 to-sky-400/20 border-2 border-blue-500/40 shadow-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_15px_45px_-8px_rgba(37,99,235,0.3)]">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-slate-900 flex items-center justify-center">
               <img src={service.image} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-slate-900/90 border border-orange-400/40 shadow-sm flex items-center gap-2 backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-                <span className="text-[11px] font-mono font-bold text-orange-300 tracking-wider uppercase">{service.badgeText}</span>
+              <div className="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-slate-900/90 border border-blue-400/40 shadow-sm flex items-center gap-2 backdrop-blur-md">
+                <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                <span className="text-[11px] font-mono font-bold text-blue-300 tracking-wider uppercase">{service.badgeText}</span>
               </div>
-              <div className="absolute bottom-3.5 right-3.5 w-10 h-10 rounded-full bg-slate-900/90 border border-orange-400/40 shadow-md flex items-center justify-center text-orange-400 backdrop-blur-md transition-transform group-hover:scale-110">
+              <div className="absolute bottom-3.5 right-3.5 w-10 h-10 rounded-full bg-slate-900/90 border border-blue-400/40 shadow-md flex items-center justify-center text-blue-400 backdrop-blur-md transition-transform group-hover:scale-110">
                 <svg viewBox="0 0 48 48" className="w-5 h-5 stroke-current stroke-[1.8] fill-none">{service.svg}</svg>
               </div>
             </div>
@@ -288,7 +189,7 @@ const ServiceSection: React.FC<{ service: ServiceItem; index: number }> = ({
   return (
     <section
       id={service.id}
-      className={`relative py-20 sm:py-24 px-6 sm:px-10 border-b border-[var(--stone-line)] transition-colors duration-500 bg-gradient-to-b ${service.bgGradient}`}
+      className={`relative py-20 sm:py-24 px-6 sm:px-10 transition-colors duration-500 bg-gradient-to-b ${service.bgGradient}`}
     >
       <div className="max-w-[1180px] mx-auto">
         <div className={`flex flex-col lg:flex-row items-center gap-12 lg:gap-20 ${isEven ? "lg:flex-row-reverse" : ""}`}>
@@ -301,7 +202,7 @@ const ServiceSection: React.FC<{ service: ServiceItem; index: number }> = ({
           {/* Content Column — slides in from opposite side */}
           <div ref={textRef} className="relative z-10 flex-1 min-w-0">
             {/* Bold numbered heading */}
-            <p className="text-[20px] sm:text-[22px] font-black font-mono uppercase tracking-normal text-[var(--coral)] mb-2 select-none">
+            <p className="text-[25px] sm:text-[29px] lg:text-[32px] font-black font-heading uppercase tracking-normal text-[#1D4ED8] mb-2 select-none">
               {service.heading}
             </p>
 
@@ -312,8 +213,8 @@ const ServiceSection: React.FC<{ service: ServiceItem; index: number }> = ({
 
             {/* Featured Note */}
             {service.note && (
-              <p className="text-sm font-semibold text-[var(--coral)] mt-3 font-mono flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[var(--coral)] animate-ping" />
+              <p className="text-sm font-semibold text-[#2563EB] mt-3 font-mono flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#2563EB] animate-ping" />
                 <span>{service.note}</span>
               </p>
             )}
@@ -354,19 +255,20 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigateHome }) =>
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[var(--ink)] selection:bg-[var(--coral)] selection:text-white font-sans">
+    <div className="services-page min-h-screen bg-[#FAFAF8] text-[var(--ink)] selection:bg-[var(--coral)] selection:text-white font-sans">
       <Header activePage="services" onNavigate={handleGlobalNavigate} />
 
       {/* Hero */}
-      <header className="services-hero-gradient relative flex min-h-[100svh] items-center overflow-hidden border-b border-[#e7e3da] bg-white px-6 pb-16 pt-28 sm:px-10 sm:pt-32 lg:pb-24">
+      <header className="services-hero-gradient relative flex min-h-[100svh] items-center overflow-hidden bg-white px-6 pb-16 pt-28 sm:px-10 sm:pt-32 lg:pb-24">
+        <BlueMeshyBackground className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
         <div className="relative z-10 mx-auto grid w-full max-w-[1180px] items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div className="services-hero-copy max-w-[760px]">
-            <p className="text-sm font-bold tracking-widest uppercase text-[#E8823C] mb-4 font-mono">✦ Services</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-[60px] font-heading font-extrabold text-[#171717] leading-[1.08] tracking-[-0.03em]">
+            <p className="text-sm font-bold tracking-widest uppercase text-[#0F2A52] mb-4 font-mono">✦ Services</p>
+            <h1 className="text-4xl sm:text-5xl lg:text-[60px] font-heading font-extrabold text-[#0F2A52] leading-[1.08] tracking-[-0.03em]">
               <span>Engineering built around your data,</span>{" "}
-              <span className="text-[#E8823C]">not around a demo.</span>
+              <span className="text-[#0F2A52]">not around a demo.</span>
             </h1>
-            <p className="text-lg sm:text-xl text-[#E8823C] leading-relaxed mt-6 max-w-[52ch] font-normal">
+            <p className="text-lg sm:text-xl text-[#294A70] leading-relaxed mt-6 max-w-[52ch] font-normal">
               Eight capability areas, one engineering team — from generative AI applications to the cloud infrastructure that keeps them running.
             </p>
           </div>

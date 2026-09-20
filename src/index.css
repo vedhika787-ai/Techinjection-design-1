@@ -7,7 +7,7 @@
   --surface: #FFFFFF;
   --text-primary: #0F172A;
   --text-secondary: #475569;
-  --accent: #E8823C;
+  --accent: #2563EB;
   --accent-dark: #161A2B;
   --border: #E2E8F0;
   --radius: 0.5rem;
@@ -19,9 +19,9 @@
   --paper: #ffffff;
   --paper-tint: #FBF6F1;
   --stone-line: rgba(24, 20, 15, 0.12);
-  --coral: #E2593A;
-  --amber: #EFA458;
-  --rose: #E27691;
+  --coral: #2563EB;
+  --amber: #3B82F6;
+  --rose: #60A5FA;
 }
 
 @layer base {
@@ -44,6 +44,16 @@
     overflow-x: hidden;
     line-height: 1.6;
     letter-spacing: -0.01em;
+  }
+
+  .home-page,
+  .home-page * {
+    font-family: "Poppins", sans-serif !important;
+  }
+
+  .services-page,
+  .services-page * {
+    font-family: "Poppins", sans-serif !important;
   }
 
   h1, h2, h3, h4, h5, h6 {
