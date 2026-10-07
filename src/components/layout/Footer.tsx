@@ -4,7 +4,7 @@ import { ChevronDown, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import { FOOTER_DATA } from "@/data/heroContent";
 
 interface FooterProps {
-  onNavigate?: (page: "home" | "services", hash?: string) => void;
+  onNavigate?: (page: "home" | "services" | "ai-rnd", hash?: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
@@ -115,6 +115,25 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </div>
               ))}
             </div>
+          </div>
+
+          <div className="lg:col-span-2">
+            <h4 className="mb-4 text-sm font-heading font-semibold uppercase tracking-wider text-text-primary">
+              Research
+            </h4>
+            <a
+              href="#ai-rnd"
+              onClick={(e) => {
+                if (onNavigate) {
+                  e.preventDefault();
+                  onNavigate("ai-rnd");
+                }
+              }}
+              className="group flex items-center justify-between text-xs sm:text-sm text-text-secondary hover:text-accent transition-colors"
+            >
+              <span>AI &amp; R&amp;D</span>
+              <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+            </a>
           </div>
 
           {/* Col 4: Contact & Inquiry (lg:col-span-3) */}

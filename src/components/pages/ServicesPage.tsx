@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { SERVICES_LIST, type ServiceItem } from "@/data/servicesData";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import BlueMeshyBackground from "@/components/ui/blue-meshy-background";
 
 interface ServicesPageProps {
   onNavigateHome?: (hash?: string) => void;
@@ -245,9 +244,12 @@ const ServiceSection: React.FC<{ service: ServiceItem; index: number }> = ({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigateHome }) => {
-  const handleGlobalNavigate = (page: "home" | "services", hash?: string) => {
+  const handleGlobalNavigate = (page: "home" | "services" | "ai-rnd", hash?: string) => {
     if (page === "home") {
       if (onNavigateHome) onNavigateHome(hash);
+    } else if (page === "ai-rnd") {
+      window.history.pushState(null, "", "#ai-rnd");
+      window.dispatchEvent(new PopStateEvent("popstate"));
     } else if (hash) {
       const el = document.getElementById(hash);
       if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -259,8 +261,11 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigateHome }) =>
       <Header activePage="services" onNavigate={handleGlobalNavigate} />
 
       {/* Hero */}
-      <header className="services-hero-gradient relative flex min-h-[100svh] items-center overflow-hidden bg-white px-6 pb-16 pt-28 sm:px-10 sm:pt-32 lg:pb-24">
-        <BlueMeshyBackground className="pointer-events-none absolute inset-0 z-0 h-full w-full" />
+      <header
+        className="relative flex min-h-[100svh] items-center overflow-hidden bg-cover bg-center bg-no-repeat px-6 pb-16 pt-28 sm:px-10 sm:pt-32 lg:pb-24"
+        style={{ backgroundImage: "url('/services.jpeg')" }}
+      >
+        <div className="pointer-events-none absolute inset-0 z-0 bg-white/10" />
         <div className="relative z-10 mx-auto grid w-full max-w-[1180px] items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
           <div className="services-hero-copy max-w-[760px]">
             <p className="text-sm font-bold tracking-widest uppercase text-[#0F2A52] mb-4 font-mono">✦ Services</p>
@@ -273,13 +278,6 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onNavigateHome }) =>
             </p>
           </div>
 
-          <div className="services-hero-image-wrap" aria-label="Business technology professional">
-            <img
-              src="/servicesheropngimage.png"
-              alt="Technology professional holding a laptop"
-              className="services-hero-image"
-            />
-          </div>
         </div>
       </header>
 

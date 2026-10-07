@@ -1,0 +1,282 @@
+/* TechMapStack.css - Interactive Sticky Stacked Technology Map */
+
+.tm-section-wrap {
+  position: relative;
+  background-color: var(--bg-base, #FAFAF8);
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.tm-section {
+  --tm-top: 96px; /* distance from top of viewport where cards stick (header is 80px on desktop) */
+  --tm-card-h: 460px;
+  padding: 80px 24px 140px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ---------- Heading ---------- */
+.tm-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 60px;
+}
+
+.tm-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2563EB;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  margin-bottom: 16px;
+}
+
+.tm-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 4.2vw, 46px);
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+  color: #0F172A;
+  margin: 0 0 16px;
+}
+
+.tm-sub {
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0 auto;
+}
+
+.tm-sub strong {
+  color: #0F172A;
+  font-weight: 600;
+}
+
+/* ---------- Stack ---------- */
+/* IMPORTANT: no ancestor of .tm-stack may have overflow:hidden/auto, or sticky will stop working */
+.tm-stack {
+  position: relative;
+}
+
+.tm-card {
+  position: sticky; /* top is set inline per card: top = calc(var(--tm-top) + i * 16px) */
+  height: var(--tm-card-h);
+  margin-bottom: 48px; /* scroll distance between cards */
+}
+
+.tm-card__inner {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  gap: 36px;
+  align-items: center;
+  padding: 44px 50px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 36px -8px rgba(15, 23, 42, 0.12),
+              0 2px 10px rgba(15, 23, 42, 0.04);
+  transform-origin: top center;
+  will-change: transform, filter;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.tm-card:hover .tm-card__inner {
+  box-shadow: 0 20px 48px -10px rgba(15, 23, 42, 0.18),
+              0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+/* ---------- Text ---------- */
+.tm-card__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.tm-card__meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.tm-card__num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1E293B;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 2px 10px;
+  border-radius: 8px;
+  display: inline-block;
+  letter-spacing: 0.05em;
+}
+
+.tm-card__tagline {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  letter-spacing: 0.01em;
+}
+
+.tm-card__title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  margin: 10px 0 14px;
+  font-size: clamp(24px, 3.2vw, 34px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #0F172A;
+}
+
+.tm-card__desc {
+  margin: 0 0 20px;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.68;
+  color: #27272A;
+}
+
+.tm-card__points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tm-card__points li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0F172A;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-blur: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.tm-card__points li::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2563EB;
+}
+
+/* ---------- Media ---------- */
+.tm-card__media {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tm-media-wrapper {
+  width: 100%;
+  height: 100%;
+  max-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  padding: 16px;
+  backdrop-blur: 8px;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.3),
+              0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.tm-card__media img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.4s ease;
+}
+
+.tm-card:hover .tm-card__media img {
+  transform: scale(1.03);
+}
+
+.tm-card__placeholder {
+  width: 100%;
+  height: 80%;
+  display: grid;
+  place-items: center;
+  border: 2px dashed rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  color: rgba(0, 0, 0, 0.45);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .tm-section {
+    --tm-top: 80px;
+    --tm-card-h: auto;
+    padding: 60px 18px 100px;
+  }
+  .tm-card {
+    height: auto;
+    min-height: 520px;
+    margin-bottom: 32px;
+  }
+  .tm-card__inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 240px;
+    padding: 30px 24px;
+    gap: 20px;
+    align-items: start;
+  }
+  .tm-media-wrapper {
+    max-height: 230px;
+  }
+}
+
+@media (max-width: 640px) {
+  .tm-section {
+    --tm-top: 72px;
+  }
+  .tm-card {
+    min-height: 560px;
+  }
+  .tm-card__inner {
+    grid-template-rows: auto 190px;
+    padding: 24px 18px;
+  }
+  .tm-media-wrapper {
+    max-height: 180px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-card__inner {
+    transform: none !important;
+    filter: none !important;
+  }
+}

@@ -4,14 +4,16 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { NAV_ITEMS } from "@/data/heroContent";
 
 interface HeaderProps {
-  activePage?: "home" | "services";
-  onNavigate?: (page: "home" | "services", hash?: string) => void;
+  activePage?: "home" | "services" | "ai-rnd";
+  onNavigate?: (page: "home" | "services" | "ai-rnd", hash?: string) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ activePage = "home", onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(activePage === "services" ? "Services" : "Home");
+  const [activeItem, setActiveItem] = useState(
+    activePage === "services" ? "Services" : activePage === "ai-rnd" ? "AI & R&D" : "Home"
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,6 +71,11 @@ export const Header: React.FC<HeaderProps> = ({ activePage = "home", onNavigate 
                     if (onNavigate) {
                       e.preventDefault();
                       onNavigate("services");
+                    }
+                  } else if (item.label === "AI & R&D") {
+                    if (onNavigate) {
+                      e.preventDefault();
+                      onNavigate("ai-rnd");
                     }
                   } else if (item.label === "Home") {
                     if (onNavigate) {
@@ -137,6 +144,11 @@ export const Header: React.FC<HeaderProps> = ({ activePage = "home", onNavigate 
                         if (onNavigate) {
                           e.preventDefault();
                           onNavigate("services");
+                        }
+                      } else if (item.label === "AI & R&D") {
+                        if (onNavigate) {
+                          e.preventDefault();
+                          onNavigate("ai-rnd");
                         }
                       } else if (item.label === "Home") {
                         if (onNavigate) {

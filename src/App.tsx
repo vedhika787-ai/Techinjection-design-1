@@ -6,11 +6,15 @@ import { CoreCapabilities } from "@/components/sections/CoreCapabilities";
 import { FeaturedUseCase } from "@/components/sections/FeaturedUseCase";
 import { Footer } from "@/components/layout/Footer";
 import { ServicesPage } from "@/components/pages/ServicesPage";
+import { AiRndPage } from "@/components/pages/AiRndPage";
 
 export function App() {
-  const getInitialView = (): "home" | "services" => {
+  const getInitialView = (): "home" | "services" | "ai-rnd" => {
     const hash = window.location.hash;
     const pathname = window.location.pathname;
+    if (pathname.includes("/ai-rnd") || hash === "#ai-rnd") {
+      return "ai-rnd";
+    }
     if (
       pathname.includes("/services") ||
       hash === "#services" ||
@@ -21,9 +25,9 @@ export function App() {
     return "home";
   };
 
-  const [currentView, setCurrentView] = useState<"home" | "services">(getInitialView);
+  const [currentView, setCurrentView] = useState<"home" | "services" | "ai-rnd">(getInitialView);
 
-  const handleNavigate = useCallback((page: "home" | "services", hash?: string) => {
+  const handleNavigate = useCallback((page: "home" | "services" | "ai-rnd", hash?: string) => {
     setCurrentView(page);
     if (page === "services") {
       const targetHash = hash ? `#${hash}` : "#services";
@@ -36,6 +40,9 @@ export function App() {
       } else {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
+    } else if (page === "ai-rnd") {
+      window.history.pushState(null, "", "#ai-rnd");
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       const targetHash = hash ? `#${hash}` : "#hero";
       window.history.pushState(null, "", targetHash);
@@ -54,6 +61,10 @@ export function App() {
     const handleHashChange = () => {
       const hash = window.location.hash;
       const pathname = window.location.pathname;
+      if (pathname.includes("/ai-rnd") || hash === "#ai-rnd") {
+        setCurrentView("ai-rnd");
+        return;
+      }
       if (
         pathname.includes("/services") ||
         hash === "#services" ||
@@ -84,6 +95,10 @@ export function App() {
     return (
       <ServicesPage onNavigateHome={(hash) => handleNavigate("home", hash || "hero")} />
     );
+  }
+
+  if (currentView === "ai-rnd") {
+    return <AiRndPage onNavigate={handleNavigate} />;
   }
 
   return (
